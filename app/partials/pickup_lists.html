@@ -1,0 +1,17 @@
+<h2>Pickup Lists</h2>
+<table class="table table-striped">
+<tr>
+    <th>Troop Name | </th>
+    <th>Contact | </th>
+    <th>Contact Phone | </th>
+  </tr>
+<tr ng-repeat="customer in customers |  orderBy:'customer.unit.name'" >
+	<td>{{customer.name}}</td>
+	<td>{{customer.unit.name}}</td>
+	<td>{{customer.address}}</td>
+</tr>
+</table>
+
+
+
+<button ng-click="logout()">Log Out</button>

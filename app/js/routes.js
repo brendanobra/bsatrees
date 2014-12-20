@@ -29,6 +29,19 @@ angular.module('myApp.routes', ['ngRoute', 'simpleLogin'])
             }]
           }
       },
+      '/pickup_lists': {
+          templateUrl: 'partials/pickup_lists.html',
+          controller: 'CustomersCtrl',
+          resolve: {
+              // forces the page to wait for this promise to resolve before controller is loaded
+              // the controller can then inject `user` as a dependency. This could also be done
+              // in the controller, but this makes things cleaner (controller doesn't need to worry
+              // about auth status or timing of displaying its UI components)
+              user: ['simpleLogin', function(simpleLogin) {
+                return simpleLogin.getUser();
+              }]
+            }
+        },
       '/maps': {
           templateUrl: 'partials/maps.html',
           controller: 'MapsCtrl',

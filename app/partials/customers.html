@@ -1,7 +1,8 @@
 
 <h2>Customers</h2>
-<form name="newCustomerForm">
+<form name="newCustomerForm"  ng-model="customers">   
     <div>Hello: {{user.email}} </div>
+    <div>There are currently: {{customers.length}} customers</div>
 	Name:<input ng-model="newCustomer.name" required /> 
 	House # and Street: <input ng-model="newCustomer.address" required
 		ng-model-options="{ debounce: 250 }"
@@ -17,24 +18,14 @@
 		ng-model="newCustomer.phone" /> PickupDate: <select
 		ng-options="date.name for date in pickupDates"
 		ng-model="newCustomer.pickupdate" required></select>
-	<br>
 
-	<span class="row" ng-hide="false" ng-model="newCustomerMapHide">
-	    Map Coordinates: {{newCustomer.coords}} <br>
+
+
+	    Map Coordinates: {{newCustomer.coords}} 
 	    Unit Providing service: {{newCustomer.unit.name}}
-		<map center="{{mapCenter}}" 
-			map-type-id="ROADMAP" ng-model="newCustomer.coords"  ng-hide="newCustomerMapHide" ng-model="newCustomerMapHide">
-		    
-			<marker
-      			position="{{newCustomer.coords}}"
-      			 title="{{newCustomer.name}}"  centered="true" />
-      	
-		</map>
-	</span>
-	<td>
-			<button ng-click="assignTroop()">Test assignment</button>
-		<td>
+   <div>
 	<button ng-click="addCustomer()">add customer</button>
+	</div>
 
 </form>
 <table class="table table-striped">
