@@ -1,0 +1,76 @@
+<html ng-app="bsatrees">
+<head>
+<script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
+<script src="lib/angular.js"></script>
+<script src="lib/firebase.js"></script>
+<script src="lib/angularfire.min.js"></script>
+<script src="lib/jquery-1.11.1.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/lodash.js"></script>
+<script src="lib/angular-google-maps.min.js"></script>
+<script src="lib/bsatrees/bsatrees.js"></script>
+<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css"/>
+
+
+<!--  
+<script>
+
+function initialize() {
+  var mapOptions = {
+    zoom: 8,
+    center: new google.maps.LatLng(-34.397, 150.644)
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+}
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+      'callback=initialize';
+  document.body.appendChild(script);
+}
+
+
+window.onload = loadScript;
+</script>
+-->
+</head>
+<body ng-controller="bsatreesCtrl">
+	Customers:
+	<table>
+  <tr ng-repeat="customer in rootdb.customers">
+    <td>{{ customer.firstname }}</td>
+    <td>{{customer.lastname }}</td>
+  </tr>
+</table>
+	<ul>
+		<li ng-repeat="customer in rootdb.customers">First Name: <input
+			ng-model="customer.firstname"
+			ng-change="rootdb.customers.$save(customer)" /> <br> Last Name:
+			<input ng-model="customer.lastname"
+			ng-change="rootdb.customers.$save(customer)" /> <br>
+			Coordinates: {{customer.coordinates}} <br>
+		</li>
+	</ul>
+	Maps:
+	<ul>
+		<li ng-repeat="map in rootdb.maps"><input ng-model="map.url"
+			ng-change="rootdb.maps.$save(map)" /></li>
+	</ul>
+	Territories:
+	<ul>
+		<li ng-repeat="territory in rootdb.territories"><input
+			ng-model="territory.map" ng-change="rootdb.maps.$save(territory)" />
+		</li>
+	</ul>
+	Troops:
+	<ul>
+		<li ng-repeat="troop in rootdb.troops"><input
+			ng-model="troop.name" ng-change="rootdb.maps.$save(troop)" /></li>
+	</ul>
+</body>
+
+</html>

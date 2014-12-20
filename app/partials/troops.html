@@ -1,0 +1,18 @@
+
+<h2>Troops</h2>
+<table class="table table-striped">
+<tr>
+    <th>Troop Name | </th>
+    <th>Contact | </th>
+    <th>Contact Phone | </th>
+  </tr>
+<tr ng-repeat="troop in troops">
+	<td>{{troop.name}}</td>
+	<td>{{troop.contactName}}</td>
+	<td>{{troop.contactPhone}}</td>
+</tr>
+</table>
+
+
+
+<button ng-click="logout()">Log Out</button>

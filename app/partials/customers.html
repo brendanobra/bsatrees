@@ -1,0 +1,100 @@
+
+<h2>Customers</h2>
+<form name="newCustomerForm">
+    <div>Hello: {{user.email}} </div>
+	Name:<input ng-model="newCustomer.name" required /> 
+	House # and Street: <input ng-model="newCustomer.address" required
+		ng-model-options="{ debounce: 250 }"
+		ng-blur="geocodeString(newCustomer.address, newCustomer.city.name); assignTroop()" />
+
+
+	City: <select data-ng-options="city.name for city in cities"
+		data-ng-model="newCustomer.city"
+		ng-blur="geocodeString(newCustomer.address, newCustomer.city.name )"
+		required></select>
+
+	 Email:<input ng-model="newCustomer.email" /> Phone:<input
+		ng-model="newCustomer.phone" /> PickupDate: <select
+		ng-options="date.name for date in pickupDates"
+		ng-model="newCustomer.pickupdate" required></select>
+	<br>
+
+	<span class="row" ng-hide="false" ng-model="newCustomerMapHide">
+	    Map Coordinates: {{newCustomer.coords}} <br>
+	    Unit Providing service: {{newCustomer.unit.name}}
+		<map center="{{mapCenter}}" 
+			map-type-id="ROADMAP" ng-model="newCustomer.coords"  ng-hide="newCustomerMapHide" ng-model="newCustomerMapHide">
+		    
+			<marker
+      			position="{{newCustomer.coords}}"
+      			 title="{{newCustomer.name}}"  centered="true" />
+      	
+		</map>
+	</span>
+	<td>
+			<button ng-click="assignTroop()">Test assignment</button>
+		<td>
+	<button ng-click="addCustomer()">add customer</button>
+
+</form>
+<table class="table table-striped">
+	<tr>
+		<th>Name</th>
+		<th>Phone</th>
+		<th>Email</th>
+		<th>Pickup date</th>
+		<th>Address</th>
+		<th>GPS Coords.</th>
+		<th>Unit</th>
+	</tr>
+	<tr ng-repeat="customer in customers">
+		<td><input ng-model="customer.name" /></td>
+		<td><input ng-model="customer.phone" /></td>
+		<td><input ng-model="customer.email" /></td>
+		<!-- 
+    <td><select ng-options="o for o in pickupDates" ng-model='customer.pickupdate'></select></td>
+	-->
+		<td>
+			<select ng-model="customer.pickupdate"
+				ng-options="date.name for date in pickupDates track by date.name" value="{{date.name}}"
+				ng-selected="customer.pickupdate == date.name">
+			</select>
+	    </td>
+			
+		<td><input ng-model="customer.address"
+			ng-blur="geocode(customer)" /></td>
+		<td><input ng-model="customer.coords" /></td>
+		<td>
+			<select ng-model="customer.unit"
+				ng-options="unit.name for unit in units track by unit.name" value="{{unit.name}}"
+				ng-selected="customer.unit == unit.name">
+			</select>
+	    </td>
+		<td>
+			<button ng-click="customers.$save(customer)">Update</button>
+		<td>
+		<td>
+			<button ng-click="customers.$remove(customer)">Delete</button>
+		<td>
+	</tr>
+</table>
+ <map center="{{mapCenter}}" zoom="10" mayTypeId="ROADMAP" ng-model="customers">   
+      <marker ng-repeat="customer in customers" icon="img/treeg.png"
+       	position="{{customer.coords}}" 
+       	title="Customer: {{customer.name}}, 
+       		{{customer.address}}, Unit: {{customer.unit.name}}"/>
+       		
+      <marker ng-repeat="collectionSite in collectionSites" icon="img/collection.png"
+       	position="{{collectionSite.coords}}" 
+       	title="Collection Site: {{collectionSite.name}}, {{collectionSite.address}} "/>
+      <shape name="polygon"  stroke-color="#FF0000"
+       stroke-opacity="0.8"
+       stroke-weight="2"
+       fill-color="{{territory.color}}"
+       label ="goo"
+       fill-opacity="0.12" ng-repeat="territory in territories" paths="{{territory.coords}}"/>
+  </map>
+<hr>
+
+
+<button ng-click="logout()">Log Out</button>

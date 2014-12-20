@@ -1,0 +1,18 @@
+{
+    "rules": {
+        "2014": {
+            ".read": false,
+            ".write": false,
+            "$territories": {
+                ".read": true,
+                ".write": false
+            },
+            "customers": {
+                ".read": "auth !== null && auth.provider === 'password'",
+                ".write": "auth !== null && auth.provider === 'password'"
+            }
+      
+            
+        }
+    }
+}

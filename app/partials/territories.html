@@ -1,0 +1,26 @@
+
+<h2>Territories</h2>
+<map center="{{mapCenter}}" zoom="11" mayTypeId="ROADMAP" ng-model="customers">
+      
+      <marker ng-repeat="collectionSite in collectionSites" icon="img/collection.png"
+       	position="{{collectionSite.coords}}" 
+       	title="Collection Site: {{collectionSite.name}}, {{collectionSite.address}} "/>
+      <!--  <marker ng-repeat="territory in territory" 
+       	position="{{territory.center}}" 
+       	title="Territory: {{territory.id}} "/> -->
+      <shape name="polygon"  stroke-color="#FF0000"
+       stroke-opacity="0.8"
+       stroke-weight="2"
+       fill-color="{{territory.color}}"
+       label ="goo"
+       fill-opacity="0.12" ng-repeat="territory in territories" paths="{{territory.coords}}"/>
+    
+      <marker ng-repeat="territory in territories" icon="img/number_{{territory.name}}.png"
+       	position="{{territory.marker}}" ng-show="territory.marker"
+       	title="{{territory._id}}"/>
+       
+  </map>
+
+
+
+<button ng-click="logout()">Log Out</button>

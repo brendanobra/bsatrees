@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/vendor/modernizr-2.6.2.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.dropotron.min.js"></script>
+<script src="js/skel.min.js"></script>
+<script src="js/skel-layers.min.js"></script>
+<script src="js/init.js"></script>
+<noscript>
+	<link rel="stylesheet" href="css/skel.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/style-desktop.css" />
+</noscript>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body class="homepage">
+	<!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+	<!-- Add your site or application content here -->
+
+
+	<!--  -<div id="header-wrapper">
+		<div id="header" class="container">
+  -->
+	<div class="header">
+
+		<h2 id="logo">
+			<center>
+				<a href="index.html">Fairfield Suisun Boy Scouts Christmas Tree
+					Recycling</a>
+			</center>
+		</h2>
+		<header>
+			<p>
+			<center>Thank you for your interest in the 2014 Christmas
+				Tree Recycling Program. The pickup dates for the 2014 Holiday Season
+				are:</center>
+			</p>
+		</header>
+	</div>
+	<center>
+		<div class="6u">
+
+			<section>
+
+				<div class="row">
+					<div class="6u">
+						<ul class="icons">
+							<li class="icon fa-tree">12/27/2014</li>
+							<li class="icon fa-tree">01/03/2015</li>
+							<li class="icon fa-tree">01/10/2015</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+		</div>
+	</center>
+	<form name="addCustomerForm">
+		<header>
+			<h2>
+				
+			</h2>
+		</header>
+		<form method="post" action="addCustomer" name="addCustomerForm">
+			<div class="row 70%">
+				<div class="6u">
+					<input name="name" placeholder="Name" type="text" />
+				</div>
+				<div class="6u">
+					<input name="address" placeholder="Address" type="text" />
+				</div>
+				<div class="6u">
+					<input name="email" placeholder="Email" type="text" />
+				</div>
+			</div>
+			<div class="row 10%">
+				<div class="12u">
+					<textarea name="message" placeholder="Message"></textarea>
+				</div>
+			</div>
+			<div class="row 50%">
+			     <div class="g-recaptcha"
+					data-sitekey="6LdS2P4SAAAAAPzzcLPt_8U_G1VF-vNPXvDPYq7J"></div>
+		
+				<div class="12u">
+					<a href="#" class="form-button-submit button icon fa-envelope">Send
+						Message</a>
+				</div>
+			</div>
+		</form>
+	</form>
+	<header>
+		<h2>
+			Questions or comments? <strong>Get in touch:</strong>
+		</h2>
+	</header>
+
+	<div class="6u">
+		<section>
+			<p>Please feel to contact us if you have any questions/concerns
+				about the 2014 Christmas Tree Recycling Program</p>
+			<div class="row">
+				<div class="6u">
+					<ul class="icons">
+
+						<li class="icon fa-phone">Voice/Text: (707) 646-1740</li>
+						<li class="icon fa-envelope">email: <a
+							href="mailto:bsatreerecycle@gmail.com?Subject=2014%%Holiday%%Tree%%20Recycling">bsatreerecycle@gmail.com</a>
+						</li>
+					</ul>
+				</div>
+				<div class="6u">
+					<ul class="icons">
+						<li class="icon fa-facebook"><a
+							href="https://www.facebook.com/ChiefSolanoDistrict"> Check us
+								out on Facebook! </a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</div>
+
+
+
+	<!--  </div>
+	</div>
+	-->
+
+	<script>
+		window.jQuery
+				|| document
+						.write(
+								'<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')
+	</script>
+	<script src="js/plugins.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		(
+								function(i, s, o, g, r, a, m) {
+									i['GoogleAnalyticsObject'] = r;
+									i[r] = i[r] || function() {
+										(i[r].q = i[r].q || []).push(arguments)
+									}, i[r].l = 1 * new Date();
+									a = s.createElement(o), m = s
+											.getElementsByTagName(o)[0];
+									a.async = 1;
+									a.src = g;
+									m.parentNode.insertBefore(a, m)
+								})
+						(window, document, 'script',
+								'//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-57386825-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>
