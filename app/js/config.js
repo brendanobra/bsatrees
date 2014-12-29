@@ -7,7 +7,7 @@ angular.module('myApp.config', [])
   // see tags for other versions: https://github.com/firebase/angularFire-seed/tags
   .constant('version', '0.8.2')
   
-  .constant("GOOGLE_API_KEY","YOUR_GOOGLE_MAPS_KEY")
+  .constant("GOOGLE_API_KEY","AIzaSyBg1glI6wrkC32xuaZSaYrHGmv4-0WiarQ")
 
   // where to redirect users if they need to authenticate (see routeSecurity.js)
   .constant('loginRedirectPath', '/login')

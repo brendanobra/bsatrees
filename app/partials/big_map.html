@@ -1,0 +1,31 @@
+
+<h2>The Big Map</h2>
+<p>
+	Enter filter Text : <input type="text" ng-model="filterTxt"
+		placeholder="enter text here." class="input-text">
+</p>
+<div>There are currently: {{customers.length}} customers</div>
+<!-- filter : filterTxt -->
+<!--    filter: { pickupdate: {name: '01/10/2015'} } -->
+<map center="{{mapCenter}}" zoom="10" mayTypeId="ROADMAP"
+	ng-model="customers">
+	<marker
+	
+		ng-repeat="customer in customers | 
+         filter : filterTxt "
+		icon="img/treeg.png" position="{{customer.coords}}"
+		title="Customer: {{customer.name}}, 
+       		{{customer.address}}, Unit: {{customer.unit.name}}" />
+
+	<marker ng-repeat="collectionSite in collectionSites"
+		icon="img/collection.png" position="{{collectionSite.coords}}"
+		title="Collection Site: {{collectionSite.name}}, {{collectionSite.address}} " />
+	<shape name="polygon" stroke-color="#FF0000" stroke-opacity="0.8"
+		stroke-weight="2" fill-color="{{territory.color}}" label="goo"
+		fill-opacity="0.12" ng-repeat="territory in territories"
+		paths="{{territory.coords}}" />
+</map>
+<hr>
+
+
+<button ng-click="logout()">Log Out</button>

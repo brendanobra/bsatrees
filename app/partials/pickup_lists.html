@@ -1,15 +1,17 @@
 <h2>Pickup Lists</h2>
 <table class="table table-striped">
 <tr>
-    <th>Troop Name | </th>
-    <th>Contact | </th>
-    <th>Contact Phone | </th>
+    <th>Customer Name | </th>
+    <th>Unit | </th>
+    <th>Customer Address | </th>
+    <th>Pickup date</th>
   </tr>
-<tr ng-repeat="customer in customers |  orderBy:'customer.unit.name'" >
-	<td>{{customer.name}}</td>
-	<td>{{customer.unit.name}}</td>
-	<td>{{customer.address}}</td>
-</tr>
+<div ng-repeat="aunit in units |  orderBy:'aunit.name'" >
+	{{aunit.name}}
+	<div ng-repeat="customer in customers |  filter:{ 'customer.unit.name':'Troop100'}" >
+	{{customer.name}}
+    </div>
+</div>
 </table>
 
 
