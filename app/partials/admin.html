@@ -1,0 +1,18 @@
+
+<h2>Admin</h2>
+<form name="remapCustomerForm"  ng-model="customers">   
+    <div>Hello: {{user.email}} </div>
+    <div>There are currently: {{customers.length}} customers</div>
+	
+   
+	<button ng-click="assignUnits2Customers()">Attempt to reassign all customers</button>
+	</div>
+	<p>
+	{{messages}}
+	
+</form>
+
+<hr>
+
+
+<button ng-click="logout()">Log Out</button>

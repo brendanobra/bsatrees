@@ -1,0 +1,53 @@
+
+<h2>Admin</h2>
+<form name="routesForm"  ng-model="customers">   
+    <div>Hello: {{user.email}} </div>
+    <div>There are currently: {{generatedRouteCount}} customers on the filtered route,which will divided into: {{routeChunks.length}} chunks</div>
+  
+   Date: <select ng-model="filterDate" ng-selected="0"
+    ng-options="date.name for date in pickupDates track by date.name">
+    </select>
+    <p>
+   Unit:  <select ng-model="filterUnit" ng-selected="0"
+    ng-options="unit.name for unit in units track by unit.name">
+    </select>
+    <p>
+     <button ng-click="generateRoutes()">
+     Generate Routes</button>
+	</div>
+	
+
+    <ul>
+        <li ng-repeat="point in generatedRoutes">Name: {{point.name}}<br> 
+        	Address:{{point.address}}<br>
+        	Phone: {{point.phone}}<br> 
+        	Instructions:{{point.instructions}} 
+        	<br>
+        	</li>
+    </ul>
+    
+      <li ng-repeat="chunk in routeChunks"><a href='https://www.google.com/maps/dir/{{chunk}}&optimizeWaypoints=true'>Route Link</a><br> 
+        	
+        	</li>
+</div>
+	<!--  <map center="{{mapCenter}}" zoom="10" mayTypeId="ROADMAP" ng-model="generatedRoutes">   
+      <marker ng-repeat="acustomer in generatedRoutes" icon="img/treeg.png"
+       	position="{{acustomer.coords}}" 
+       	title="Customer: {{acustomer.name}}, 
+       		{{acustomer.address}}, Unit: {{acustomer.unit}}"/>
+       		
+      <marker ng-repeat="collectionSite in collectionSites" icon="img/collection.png"
+       	position="{{collectionSite.coords}}" 
+       	title="Collection Site: {{collectionSite.name}}, {{collectionSite.address}} "/>
+      
+  </map>
+  -->
+	
+ 
+	
+</form>
+
+<hr>
+
+
+<button ng-click="logout()">Log Out</button>

@@ -1,0 +1,43 @@
+<h2>Pickup Lists for Unit {{troopId}}</h2>
+Please select a date to show pickups for: <select ng-model="filterDate" ng-selected="0"
+    ng-options="date.name for date in pickupDates track by date.name" ng-blur="generateRoutes()">
+    </select>
+    <div>
+<input type="hidden" value="{{troopId}}" />
+</div>
+   <button ng-click="generateRoutes()" ng-if="filterDate">
+     Refresh customers for {{filterDate.name}} !</button>
+     
+ <div ng-if="generatedRoutes">There are currently: 
+ 	{{generatedRouteCount}} customers on the filtered route,
+ 	which is divided into: {{routeChunks.length}} chunks</div>
+ 
+  
+<table class="table table-striped">
+ <ul>
+         <li ng-repeat="chunk in routeChunks">
+         <a href='https://www.google.com/maps/dir/{{chunk}}&optimizeWaypoints=true'>
+         Click Here for a link to a google map of your route(s)</a><br> </li>
+   </ul>
+ 
+</table>
+
+<table class="table table-striped" ng-if="generatedRoutes">
+  <tr>
+		<th>Name</th>
+		<th>Address</th>
+		<th>Phone</th>
+		<th>Instructions</th>
+	</tr>
+	<tr ng-repeat="point in generatedRoutes">
+	    <td>{{point.name}}</td>
+	    <td>{{point.address}}</td>
+	    <td>{{point.phone}}</td>
+	    <td>{{point.instructions}}</td>
+	</tr>
+ 
+</table>
+
+
+
+<button ng-click="logout()">Log Out</button>

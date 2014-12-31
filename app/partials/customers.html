@@ -6,12 +6,12 @@
 	Name:<input ng-model="newCustomer.name" required /> 
 	House # and Street: <input ng-model="newCustomer.address" required
 		ng-model-options="{ debounce: 250 }"
-		ng-blur="geocodeString(newCustomer.address, newCustomer.city.name); assignTroop()" />
+		ng-blur="geocodeString(newCustomer.address, newCustomer.city.name); assignUnit()" />
 
-
+   
 	City: <select data-ng-options="city.name for city in cities"
 		data-ng-model="newCustomer.city"
-		ng-blur="geocodeString(newCustomer.address, newCustomer.city.name )"
+		ng-blur="geocodeString(newCustomer.address, newCustomer.city.name ); assignUnit()"
 		required></select>
 
 	 Email:<input ng-model="newCustomer.email" /> Phone:<input
@@ -19,17 +19,24 @@
 		ng-options="date.name for date in pickupDates"
 		ng-model="newCustomer.pickupdate" required></select>
 
-
+    Special Instructions: <input ng-model="newCustomer.instructions" />
+   <br>
 
 	    Map Coordinates: {{newCustomer.coords}} 
-	    Unit Providing service: {{newCustomer.unit.name}}
+	    Unit Providing service: {{newCustomer.unit}}
    <div>
+   
 	<button ng-click="addCustomer()">add customer</button>
 	</div>
 
 </form>
+<p>
+	Enter filter Text : <input type="text" ng-model="filterTxt"
+		placeholder="enter text here." class="input-text">
+</p>
 <table class="table table-striped">
 	<tr>
+		<th>id</th>
 		<th>Name</th>
 		<th>Phone</th>
 		<th>Email</th>
@@ -38,7 +45,8 @@
 		<th>GPS Coords.</th>
 		<th>Unit</th>
 	</tr>
-	<tr ng-repeat="customer in customers">
+	<tr ng-repeat="customer in customers ">
+	    <td><input ng-model="customer.$id" /></td>
 		<td><input ng-model="customer.name" /></td>
 		<td><input ng-model="customer.phone" /></td>
 		<td><input ng-model="customer.email" /></td>
@@ -52,14 +60,24 @@
 			</select>
 	    </td>
 			
-		<td><input ng-model="customer.address"
-			ng-blur="geocode(customer)" /></td>
-		<td><input ng-model="customer.coords" /></td>
 		<td>
-			<select ng-model="customer.unit"
-				ng-options="unit.name for unit in units track by unit.name" value="{{unit.name}}"
-				ng-selected="customer.unit == unit.name">
-			</select>
+			<input ng-model="customer.address"
+			ng-blur="geocode(customer)" />
+		</td>
+		<td>
+			<input ng-model="customer.coords" />
+		</td>
+	
+		<td>
+	
+			<input ng-model="customer.unit" />
+	
+		</td>
+	
+   
+</select>
+   			
+		
 	    </td>
 		<td>
 			<button ng-click="customers.$save(customer)">Update</button>
@@ -69,6 +87,7 @@
 		<td>
 	</tr>
 </table>
+<!--  
  <map center="{{mapCenter}}" zoom="10" mayTypeId="ROADMAP" ng-model="customers">   
       <marker ng-repeat="customer in customers" icon="img/treeg.png"
        	position="{{customer.coords}}" 
@@ -85,6 +104,7 @@
        label ="goo"
        fill-opacity="0.12" ng-repeat="territory in territories" paths="{{territory.coords}}"/>
   </map>
+  -->
 <hr>
 
 

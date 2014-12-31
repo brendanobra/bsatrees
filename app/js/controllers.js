@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular
-		.module('myApp.controllers', [ 'firebase','firebase.utils' ])
+		.module('myApp.controllers', [ 'firebase', 'firebase.utils' ])
 		.controller(
 				'HomeCtrl',
 				[
@@ -38,8 +38,8 @@ angular
 						'syncData',
 						'fbutil',
 						'user',
-						function($scope, $log, syncData, fbutil,
-								user, $location, troopList) {
+						function($scope, $log, syncData, fbutil, user,
+								$location, troopList) {
 
 							$scope.troops = syncData('troops', 10).$asArray()
 
@@ -55,29 +55,33 @@ angular
 						'fbutil',
 						'user',
 						'$location',
+						'$routeParams',
 						'GOOGLE_API_KEY',
 						'FBURL',
-					
-						
-						function($scope, $log, $http, $q, syncData,
-							 fbutil, user, $location,
-								 GOOGLE_API_KEY,FBURL) {
-							if (user){
-								var profile = fbutil
-								.syncObject([ 'users', user.uid ]);
+
+						function($scope, $log, $http, $q, syncData, fbutil,
+								user, $location, $routeParams, GOOGLE_API_KEY, FBURL) {
+							if (user) {
+								var profile = fbutil.syncObject([ 'users',
+										user.uid ]);
 								profile.$bindTo($scope, 'profile');
 								$scope.user = user;
 								$log.info('user is ' + user.uid)
-							}else{
+							} else {
 								$log.info("no user is logged in")
 								$scope.user = null
-								
+
 							}
-							//$scope.FBURL = FBURL;
+							// $scope.FBURL = FBURL;
 							/*
 							 * BJO TODO -externalize these into DB
 							 */
-
+							if ($routeParams.troopId){
+								$scope.filterUnit = {}
+								$scope.filterUnit.name = $routeParams.troopId
+								
+								$scope.troopId = $routeParams.troopId
+							}
 							$scope.pickupDates = [ {
 								name : "12/27/2014",
 								id : "12/27/2014"
@@ -88,15 +92,14 @@ angular
 								name : "01/10/2015",
 								id : "01/10/2015"
 							} ];
- 							$scope.cities = [ {
+							$scope.cities = [ {
 								name : "Fairfield",
 								city : "Fairfield"
 							}, {
 								name : "Suisun",
 								city : "Suisun"
 							} ];
-							
-							
+
 							$scope.mapCenter = [ 38.273623, -122.025803 ];
 							$scope.resetNewCustomer = function() {
 								var newCustomer = {};
@@ -109,65 +112,201 @@ angular
 								newCustomer.coords = $scope.mapCenter
 								newCustomer.lat = '0.0'
 								newCustomer.lng = '0.0'
+								newCustomer.unit = ""
 								$scope.newCustomer = newCustomer
 								$scope.newCustomerMapHide = "true"
 							}
 							$scope.resetNewCustomer();
 
-
 							$scope.selectedCity = "Fairfield"
-								
-							$scope.settings = syncData(
-									'settings', 2000).$asObject()
-									
-						    $scope.territories = syncData(
-									'territories', 2000).$asArray();
-									
-						    $scope.units = syncData('units', 100).$asArray();
-					
-						    $scope.testCoords = ""
-							
-						    $scope.googleApiKey = GOOGLE_API_KEY;
-						    $log.info("api key is " +  $scope.googleApiKey)	
-							$scope.selectedPickupDate = $scope.pickupDates[0]
+
+							$scope.settings = syncData('settings', 2000)
+									.$asObject()
+
+							$scope.territories = syncData('territories', 2000)
+									.$asArray();
+
+							$scope.units = syncData('units', 100).$asArray();
+
+							$scope.testCoords = ""
+
+							$scope.googleApiKey = GOOGLE_API_KEY;
+							$log.info("api key is " + $scope.googleApiKey)
+							$scope.selectedPickupDate = $scope.pickupDates[1]
 							$scope.selectedCity = $scope.cities[0]
 							$log.info("selected pickup date is: "
 									+ $scope.selectedPickupDate.name)
-							$scope.customers = syncData('customers', 2000)
+							$scope.customers = syncData('customers', 1000)
 									.$asArray()
 							$scope.collectionSites = syncData(
 									'collection_sites', 2000).$asArray()
 
 							$scope.encodedAddress = "un"
-								
-							$scope.assignTroop = function() {	
-						    	$scope.territories.forEach(function(entry) {
-						    	  
-						    		var coords = entry.coords
-						    	    var paths =  new Array();
-						    	    var len = 0;
-						    	    coords.forEach(function(coord){
-						    	    	
-						    	    	var gcoord = new google.maps.LatLng(coord[0], coord[1]);
-						    	    	paths[len] = gcoord
-						    	    	len = len +1
-						    	    });
-						    	    
-						    	    var territoryMap = new google.maps.Polygon({
-									    paths:paths
-									  });
-						    	    $log.info("new customer is at:" + $scope.newCustomer.coords)
-						    	    var latLng = new google.maps.LatLng($scope.newCustomer.coords[0],
-						    	    		$scope.newCustomer.coords[1]);
-						    	    if (google.maps.geometry.poly.containsLocation(latLng, territoryMap)){
-						    	    	$log.info("found it!:" + entry.name+ ", unit is: " + entry.unit.name)
-						    	    	$scope.newCustomer.unit = entry.unit
-						    	    	$log.info(google.maps.geometry.poly.containsLocation(latLng, territoryMap));
-						    	    }
-						    		
-						    	});
-								
+
+							$scope.assignUnit = function() {
+								$scope.territories.forEach(function(entry) {
+
+									var coords = entry.coords
+									var paths = new Array();
+									var len = 0;
+									coords.forEach(function(coord) {
+
+										var gcoord = new google.maps.LatLng(
+												coord[0], coord[1]);
+										paths[len] = gcoord
+										len = len + 1
+									});
+
+									var territoryMap = new google.maps.Polygon(
+											{
+												paths : paths
+											});
+									var latLng = new google.maps.LatLng(
+											$scope.newCustomer.coords[0],
+											$scope.newCustomer.coords[1]);
+
+									if (google.maps.geometry.poly
+											.containsLocation(latLng,
+													territoryMap)) {
+										$log.info("found it!:" + entry.name
+												+ ", unit is: " + entry.unit)
+
+										$scope.newCustomer.unit = entry.unit
+										$log.info(google.maps.geometry.poly
+												.containsLocation(latLng,
+														territoryMap));
+									}
+
+								});
 							}
+							$scope.generateRoutes = function() {
+								$scope.generatedRoutes = []
+								$scope.routeChunks = []
+								$scope.currentChunk = []
+								var chunkCt = 0
+								var routeCt = 0
+								var totalCustomers = 0
+								$log.info("generated routes are: " + $scope.generatedRoutes[0] )
+								$scope.generatedRouteCount= 0
+								$log.info("generating lists for" + $scope.filterUnit.name + " on: " + $scope.filterDate.name);
+								var unitName =   $scope.filterUnit.name
+								var dateFilter = $scope.filterDate.name
+								$scope.customers.forEach(function(customer) {
+									if (customer.unit == unitName ){
+										if (customer.pickupdate == dateFilter){
+											totalCustomers = totalCustomers + 1
+											$log.info("found it!")
+											$scope.generatedRoutes[$scope.generatedRouteCount] = customer
+											$scope.generatedRouteCount = $scope.generatedRouteCount +1
+											if (routeCt <= 5){
+												$log.info("adding address")
+												$scope.currentChunk[routeCt] = customer.address
+												
+											}
+											else{
+												$scope.routeChunks[chunkCt] = 	$scope.currentChunk.join('/').split(' ').join('+')
+												$log.info("chunked: " + $scope.routeChunks[chunkCt])
+												chunkCt = chunkCt+1 
+												$scope.currentChunk = []
+												routeCt = 0
+												$scope.currentChunk[routeCt] = customer.address
+												
+											}
+											routeCt = routeCt +1
+										}
+										else{
+											$log.info("no date match")
+										}
+									}
+									
+								});
+								
+								//add in last chunk, if any
+								$log.info("last, current chunk is: " +  $scope.currentChunk.length)
+								if ( $scope.currentChunk.length > 0){
+									$log.info("adding last chunk: " + 	$scope.currentChunk)
+									$scope.routeChunks[chunkCt] = $scope.currentChunk.join('/').split(' ').join('+')
+									$log.info("adding last chunk: " + 	$scope.routeChunks[chunkCt])
+									chunkCt = chunkCt+1 
+									$scope.currentChunk = []
+									routeCt = 0
+								}
+								$log.info("process total: " + totalCustomers)
+							
+							}
+							$scope.assignUnits2Customers = function() {
+								$scope.messages = ""
+								var count = 0
+								$scope.customers
+										.forEach(function(customer) {
+											var assigned = false
+											$scope.territories
+													.forEach(function(territory) {
+														// $log.info('looking at
+														// territory: ' +
+														// territory.name )
+														var coords = territory.coords
+														var paths = new Array();
+														var len = 0;
+														coords
+																.forEach(function(
+																		coord) {
+
+																	var gcoord = new google.maps.LatLng(
+																			coord[0],
+																			coord[1]);
+																	paths[len] = gcoord
+																	len = len + 1
+																});
+
+														var territoryMap = new google.maps.Polygon(
+																{
+																	paths : paths
+																});
+														var latLng = new google.maps.LatLng(
+																customer.coords[0],
+																customer.coords[1]);
+
+														if (google.maps.geometry.poly
+																.containsLocation(
+																		latLng,
+																		territoryMap)) {
+															if (territory.unit == 'Unassigned') {
+																$log
+																		.info("customer address is: "
+																				+ customer.address
+																				+ " is not owned by anyone: "
+																				+ territory.unit
+																				+ " in territory"
+																				+ territory.name)
+															} else {
+																assigned = true
+																customer.unit = territory.unit
+																if (customer.pickupdate){
+																	if (customer.pickupdate.name){
+																	customer.pickupdate = customer.pickupdate.name
+																	$log.info("customer pickupdate is now:  " + customer.pickupdate)
+																	}
+																}else{
+																	$log.info("no pickup date on: " + customer.name)
+																}
+																count = count + 1
+																$scope.customers.$save(customer)
+
+															}
+
+														}else{
+															//$log.info("could not find customer:" + customer.name + " in a territory")
+														}
+													});
+											if (assigned == false){
+												$log.info("could not assign: " + customer.address, "which is assigned to " + customer.unit)
+											}
+										});
+								  
+									$scope.messages = "assigned: " + count + " customers"
+							}
+
 							$scope.geocode = function(customer) {
 
 								if (typeof customer == 'undefined')
@@ -180,7 +319,9 @@ angular
 									return;
 								}
 								var url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-										+ customer.address + '&key=' + $scope.googleApiKey 
+										+ customer.address
+										+ '&key='
+										+ $scope.googleApiKey
 								$log.info("getting address:" + customer.address
 										+ " with url: " + url)
 
@@ -211,6 +352,36 @@ angular
 													$log.info('got error')
 												});
 							}
+							$scope.currentAddresses = new Array();
+							$scope.customersForTroop = function(troop,
+									customers) {
+								var len = 0;
+								$scope.currentTroop = troop
+								customers
+										.forEach(function(customer) {
+											$log.info("troop is: " + troop)
+
+											if (customer.unit) {
+												if (customer.unit.name == troop) {
+													$scope.currentAddresses[len] = customer.address
+													len = len + 1
+												}
+											}
+
+										});
+							}
+							$scope.showCurrentAdresses = function() {
+								$log.info("showing addresses for troop: "
+										+ $scope.currentTroop)
+								$scope.currentAddresses.forEach(function(
+										customer) {
+									$log.info("Customer: " + customer);
+								});
+								$scope.addresses = $scope.currentAddresses
+										.join('|').split(' ').join('+')
+								$log.info("addresses are:" + $scope.addresses)
+							}
+
 							$scope.encodedAddress = "unknown"
 
 							$scope.geocodeString = function(address, city) {
@@ -220,12 +391,16 @@ angular
 											.info("address is undefined, doing nothing")
 									return 
 
+									
+
 								}
 
 								if (address == 'undefined') {
 									$log.info("address is not processable:"
 											+ address)
 									return
+
+									
 
 								}
 								if (address.trim() == '') {
@@ -237,7 +412,9 @@ angular
 										+ "," + city)
 								var humanAddress = address + "," + city + ",CA"
 								var url = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-										+ humanAddress + '&key=' + $scope.googleApiKey 
+										+ humanAddress
+										+ '&key='
+										+ $scope.googleApiKey
 								$log.info("getting address:" + humanAddress
 										+ " with url: " + url)
 
@@ -265,7 +442,7 @@ angular
 													// log error
 													$log.info('got error')
 												});
-								$scope.assignTroop();
+								$scope.assignUnit();
 							}
 							$scope.addCustomer = function() {
 								if ($scope.newCustomer != '') {
@@ -273,12 +450,13 @@ angular
 											.info('Customer pickup date is'
 													+ $scope.newCustomer.pickupdate.name)
 									var newCust = $scope.newCustomer
-									newCust.pickupdate= $scope.newCustomer.pickupdate.name
+									newCust.pickupdate = $scope.newCustomer.pickupdate.name
+									//newCust.unit = $scope.newCustomer.unit
 									newCust.address = newCust.address + " ,"
 											+ newCust.city.name + ", CA"
-								
-									$log
-											.info('new date is ' + newCust.pickupdate)
+
+									$log.info('new date is '
+											+ newCust.pickupdate)
 									var customer = $scope.customers
 											.$add(newCust);
 									$log
@@ -301,34 +479,39 @@ angular
 							$scope.pass = null;
 							$scope.confirm = null;
 							$scope.createMode = false;
-							var myRef = new Firebase("https://bsatrees.firebaseio.com");
-							$scope.authClient = new FirebaseSimpleLogin(myRef, function(error, user) {
-								  if (error) {
-								    // an error occurred while attempting login
-								    console.log(error);
-								  } else if (user) {
-								    // user authenticated with Firebase
-								    console.log("User ID: " + user.uid + ", Provider: " + user.provider);
-								  } else {
-									  console.log("user is not logged in")
-								  }
-								});
+							var myRef = new Firebase(
+									"https://bsatrees.firebaseio.com");
+							$scope.authClient = new FirebaseSimpleLogin(
+									myRef,
+									function(error, user) {
+										if (error) {
+											// an error occurred while
+											// attempting login
+											console.log(error);
+										} else if (user) {
+											// user authenticated with Firebase
+											console.log("User ID: " + user.uid
+													+ ", Provider: "
+													+ user.provider);
+										} else {
+											console
+													.log("user is not logged in")
+										}
+									});
 							$scope.login = function(email, pass) {
 								$scope.authClient.login('password', {
-									  email: email,
-									  password: pass
-									});
+									email : email,
+									password : pass
+								});
 								$location.path('/');
 								$scope.username = ""
-								/*$scope.err = null;
-								console.log("logging in")
-								simpleLogin.login(email, pass).then(
-										function() {
-											$location.path('/');
-										}, function(err) {
-											$scope.err = errMessage(err);
-										});
-								*/
+								/*
+								 * $scope.err = null; console.log("logging in")
+								 * simpleLogin.login(email, pass).then(
+								 * function() { $location.path('/'); },
+								 * function(err) { $scope.err = errMessage(err);
+								 * });
+								 */
 								$location.path('/');
 							};
 							$scope.logout = function() {
@@ -378,20 +561,26 @@ angular
 						function($scope, simpleLogin, fbutil, user, $location) {
 							// create a 3-way binding with the user profile
 							// object in Firebase
-							//var authClient = new FirebaseSimpleLogin(myRef, function(error, user) { });
-							var myRef = new Firebase("https://bsatrees.firebaseio.com");
-							$scope.authClient = new FirebaseSimpleLogin(myRef, function(error, user) {
-							  if (error) {
-							    // an error occurred while attempting login
-							    console.log(error);
-							  } else if (user) {
-							    // user authenticated with Firebase
-							    console.log("User ID: " + user.uid + ", Provider: " + user.provider);
-							  } else {
-							    // user is logged out
-							  }
-							});
-							
+							// var authClient = new FirebaseSimpleLogin(myRef,
+							// function(error, user) { });
+							var myRef = new Firebase(
+									"https://bsatrees.firebaseio.com");
+							$scope.authClient = new FirebaseSimpleLogin(myRef,
+									function(error, user) {
+										if (error) {
+											// an error occurred while
+											// attempting login
+											console.log(error);
+										} else if (user) {
+											// user authenticated with Firebase
+											console.log("User ID: " + user.uid
+													+ ", Provider: "
+													+ user.provider);
+										} else {
+											// user is logged out
+										}
+									});
+
 							var profile = fbutil
 									.syncObject([ 'users', user.uid ]);
 							profile.$bindTo($scope, 'profile');
