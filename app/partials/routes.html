@@ -1,8 +1,8 @@
 
-<h2>Admin</h2>
+<h2>Route Generator</h2>
 <form name="routesForm"  ng-model="customers">   
     <div>Hello: {{user.email}} </div>
-    <div>There are currently: {{generatedRouteCount}} customers on the filtered route,which will divided into: {{routeChunks.length}} chunks</div>
+    <div ng-if="generatedRoutes" >There are currently: {{generatedRouteCount}} customers on the filtered route,which will divided into: {{routeChunks.length}} chunks</div>
   
    Date: <select ng-model="filterDate" ng-selected="0"
     ng-options="date.name for date in pickupDates track by date.name">
@@ -15,20 +15,36 @@
      <button ng-click="generateRoutes()">
      Generate Routes</button>
 	</div>
-	
 
-    <ul>
-        <li ng-repeat="point in generatedRoutes">Name: {{point.name}}<br> 
-        	Address:{{point.address}}<br>
-        	Phone: {{point.phone}}<br> 
-        	Instructions:{{point.instructions}} 
-        	<br>
-        	</li>
-    </ul>
-    
-      <li ng-repeat="chunk in routeChunks"><a href='https://www.google.com/maps/dir/{{chunk}}&optimizeWaypoints=true'>Route Link</a><br> 
-        	
-        	</li>
+<div ng-if="generatedRoutes">Route list for {{troopId}} for: {{filterDate.name}} </div> 
+<p>
+	
+<div ng-if="generatedRoutes"> PLEASE COMPARE DRIVING DIRECTIONS AND LIST CAREFULLY, THIS SOFTWARE IS VERY NEW</div>
+
+<table class="table table-striped">
+ <ul>
+         <li ng-repeat="chunk in routeChunks">
+         <a href='https://www.google.com/maps/dir/{{chunk}}&optimizeWaypoints=true'>
+         Click Here for a link to a google map of your route(s)</a><br> </li>
+   </ul>
+ 
+</table>
+
+<table class="table table-striped" ng-if="generatedRoutes">
+  <tr>
+		<th>Name</th>
+		<th>Address</th>
+		<th>Phone</th>
+		<th>Instructions</th>
+	</tr>
+	<tr ng-repeat="point in generatedRoutes">
+	    <td>{{point.name}}</td>
+	    <td><a href='https://www.google.com/maps/place/{{point.address}}'>{{point.address}}</a></td>
+	    <td>{{point.phone}}</td>
+	    <td>{{point.instructions}}</td>
+	</tr>
+ 
+</table>
 </div>
 	<!--  <map center="{{mapCenter}}" zoom="10" mayTypeId="ROADMAP" ng-model="generatedRoutes">   
       <marker ng-repeat="acustomer in generatedRoutes" icon="img/treeg.png"

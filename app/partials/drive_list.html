@@ -12,7 +12,8 @@ Please select a date to show pickups for: <select ng-model="filterDate" ng-selec
  	{{generatedRouteCount}} customers on the filtered route,
  	which is divided into: {{routeChunks.length}} chunks</div>
  
-  
+<div ng-if="generatedRoutes"> PLEASE COMPARE DRIVING DIRECTIONS AND LIST CAREFULLY, THIS SOFTWARE IS VERY NEW</div>
+<div ng-if="generatedRoutes">Route list for {{troopId}} for: {{filterDate.name}} </div> 
 <table class="table table-striped">
  <ul>
          <li ng-repeat="chunk in routeChunks">
@@ -31,7 +32,7 @@ Please select a date to show pickups for: <select ng-model="filterDate" ng-selec
 	</tr>
 	<tr ng-repeat="point in generatedRoutes">
 	    <td>{{point.name}}</td>
-	    <td>{{point.address}}</td>
+	    <td><a href='https://www.google.com/maps/place/{{point.address}}'>{{point.address}}</a></td>
 	    <td>{{point.phone}}</td>
 	    <td>{{point.instructions}}</td>
 	</tr>

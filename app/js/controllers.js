@@ -82,6 +82,11 @@ angular
 								
 								$scope.troopId = $routeParams.troopId
 							}
+							if ($routeParams.pickupDate){
+								
+								$scope.filterDate = $routeParams.pickupDate
+								
+							}
 							$scope.pickupDates = [ {
 								name : "12/27/2014",
 								id : "12/27/2014"
@@ -281,6 +286,19 @@ angular
 																				+ territory.name)
 															} else {
 																assigned = true
+																//$log.info("customer: " + customer.address)
+																
+																if (territory.$id == "6" ){
+																	$log.info("found one in area 6")
+																}
+																if (territory.$id == "21" ){
+																	$log.info("found one in area 21")
+																}
+																if (territory.$id == "22" ){
+																	$log.info("found one in area 22")
+																}
+																customer.territory = territory.$id
+															//	$log.info("customer territory is: " + customer.territory)
 																customer.unit = territory.unit
 																if (customer.pickupdate){
 																	if (customer.pickupdate.name){
